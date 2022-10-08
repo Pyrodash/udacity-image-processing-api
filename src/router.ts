@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { join, basename, extname } from 'path'
 import sharp from 'sharp'
 import { fileExists } from './util'
+import { logger } from './util/logger'
 
 const fullImagePath = join(__dirname, 'assets', 'full')
 const thumbImagePath = join(__dirname, 'assets', 'thumb')
@@ -15,6 +16,7 @@ router.get('/images', async (req, res) => {
         return res.status(400).send('Missing filename')
     }
 
+    // handle cases where filename is a path
     if (basename(filename) != filename) {
         return res.status(400).send('Invalid filename')
     }
@@ -41,7 +43,13 @@ router.get('/images', async (req, res) => {
             return res.status(404).send('File not found')
         }
 
-        await sharp(filePath).resize(width, height).toFile(thumbPath)
+        try {
+            await sharp(filePath).resize(width, height).toFile(thumbPath)
+        } catch (err) {
+            logger.error(err)
+
+            return res.status(500).send('Failed to resize image')
+        }
     }
 
     res.sendFile(thumbPath)
