@@ -1,11 +1,8 @@
 import { Router } from 'express'
 import { join, basename, extname } from 'path'
 import sharp from 'sharp'
-import { fileExists } from './util'
+import { fileExists, getImagePath, getThumbPath } from './util'
 import { logger } from './util/logger'
-
-const fullImagePath = join(__dirname, 'assets', 'full')
-const thumbImagePath = join(__dirname, 'assets', 'thumb')
 
 export const router = Router()
 
@@ -24,20 +21,14 @@ router.get('/images', async (req, res) => {
     const width = Number(req.query.width as string)
     const height = Number(req.query.height as string)
 
-    if (isNaN(width) || isNaN(height)) {
+    if ((isNaN(width) || width <= 0) || (isNaN(height) || height <= 0)) {
         return res.status(400).send('Invalid size parameter(s)')
     }
 
-    const ext = extname(filename)
-    const baseName = basename(filename, ext)
-
-    const thumbPath = join(
-        thumbImagePath,
-        `${baseName}_${width}x${height}${ext}`
-    )
+    const thumbPath = getThumbPath(filename, width, height)
 
     if (!(await fileExists(thumbPath))) {
-        const filePath = join(fullImagePath, filename)
+        const filePath = getImagePath(filename)
 
         if (!(await fileExists(filePath))) {
             return res.status(404).send('File not found')

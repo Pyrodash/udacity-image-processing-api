@@ -3,7 +3,8 @@ import { router } from './router'
 import { logger } from './util/logger'
 
 const port = Number(process.env.PORT) || 3000
-const app = express()
+
+export const app = express()
 
 app.use('/api', router)
 
