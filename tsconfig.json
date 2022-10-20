@@ -15,7 +15,7 @@
         "emitDecoratorMetadata": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
-        "allowJs": true,
+        "allowJs": true
     },
     "exclude": ["node_modules", "dist"]
 }

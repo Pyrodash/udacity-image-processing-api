@@ -2,8 +2,8 @@ import 'jasmine'
 import { unlink } from 'fs/promises'
 import sharp from 'sharp'
 import supertest from 'supertest'
-import { app } from './index'
-import { getThumbPath } from './util'
+import { app } from '../index'
+import { getThumbPath } from '../util/path'
 
 const request = supertest(app)
 
@@ -19,31 +19,41 @@ describe('Test API', () => {
     })
 
     it('must take a filename', async () => {
-        const response = await request.get(`/api/images?width=${width}&height=${height}`)
+        const response = await request.get(
+            `/api/images?width=${width}&height=${height}`
+        )
 
         expect(response.status).toBe(400)
     })
 
     it(`won't take a path`, async () => {
-        const response = await request.get(`/api/images?width=${width}&height=${height}&filename=../${filename}`)
+        const response = await request.get(
+            `/api/images?width=${width}&height=${height}&filename=../${filename}`
+        )
 
         expect(response.status).toBe(400)
     })
 
     it('must take a width', async () => {
-        const response = await request.get(`/api/images?height=${height}&filename=${filename}`)
+        const response = await request.get(
+            `/api/images?height=${height}&filename=${filename}`
+        )
 
         expect(response.status).toBe(400)
     })
 
     it('must take a height', async () => {
-        const response = await request.get(`/api/images?width=${width}&filename=${filename}`)
+        const response = await request.get(
+            `/api/images?width=${width}&filename=${filename}`
+        )
 
         expect(response.status).toBe(400)
     })
 
     it('can resize images', async () => {
-        const response = await request.get(`/api/images?width=${width}&height=${height}&filename=${filename}`)
+        const response = await request.get(
+            `/api/images?width=${width}&height=${height}&filename=${filename}`
+        )
 
         expect(response.status).toBe(200)
 

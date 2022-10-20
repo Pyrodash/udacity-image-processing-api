@@ -3,19 +3,13 @@
         "es2021": true,
         "node": true
     },
-    "extends": [
-        "plugin:import/typescript",
-        "plugin:prettier/recommended"
-    ],
+    "extends": ["plugin:import/typescript", "plugin:prettier/recommended"],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module",
         "project": "./tsconfig.json"
     },
-    "plugins": [
-        "@typescript-eslint",
-        "prettier"
-    ],
+    "plugins": ["@typescript-eslint", "prettier"],
     "rules": {}
 }

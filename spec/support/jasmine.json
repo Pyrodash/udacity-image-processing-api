@@ -7,8 +7,8 @@
             }
         }
     ],
-    "spec_dir": "src",
-    "spec_files": ["**/*.spec.ts"],
+    "spec_dir": "src/tests",
+    "spec_files": ["**/*[sS]pec.ts"],
     "stopSpecOnExpectationFailure": false,
     "random": false
 }

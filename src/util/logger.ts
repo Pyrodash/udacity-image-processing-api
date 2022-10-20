@@ -2,9 +2,10 @@ import { join } from 'path'
 import winston from 'winston'
 
 const rootPath = process.env.LOGS_PATH || join(__dirname, '..', '..', 'logs')
+const isProd = process.env.NODE_ENV === 'production'
 
 export const logger = winston.createLogger({
-    level: 'info',
+    level: isProd ? 'info' : 'debug',
     format: winston.format.json(),
     transports: [
         new winston.transports.File({ filename: join(rootPath, 'all.log') }),
@@ -16,7 +17,7 @@ export const logger = winston.createLogger({
     ],
 })
 
-if (process.env.NODE_ENV !== 'production') {
+if (!isProd) {
     logger.add(
         new winston.transports.Console({
             format: winston.format.combine(

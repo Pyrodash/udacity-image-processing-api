@@ -7,6 +7,7 @@ const port = Number(process.env.PORT) || 3000
 export const app = express()
 
 app.use('/api', router)
+app.use(express.static('public'))
 
 app.listen(port, () => {
     logger.info(`Listening on port ${port}`)
