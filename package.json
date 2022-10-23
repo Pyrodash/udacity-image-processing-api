@@ -8,7 +8,9 @@
         "dev": "ts-node-dev src/index.ts",
         "build": "tsc",
         "test": "ts-node node_modules/jasmine/bin/jasmine",
-        "prettier": "prettier --write ."
+        "prettier": "prettier --config .prettierrc --write 'src/**/*.ts'",
+        "lint": "eslint . --ext .ts",
+        "lint-and-fix": "eslint . --ext .ts --fix"
     },
     "author": "Ahmed El-Marakby",
     "license": "MIT",
